@@ -3,8 +3,6 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-use App\Http\Controllers\AuthController;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -20,14 +18,26 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-// Registration Routes...
-Route::controller(AuthController::class)->group(function () {
+// Registration & Login Routes...
+Route::controller(App\Http\Controllers\AuthController::class)->group(function () {
     Route::post('/register', 'register');
+    Route::post('/login', 'login');
 });
 
-// Login Routes...
-Route::controller(AuthController::class)->group(function () {
-    Route::post('/login', 'login');
-    //Route::post('/logout', 'logout');
+// Customer Create & Login Routes...
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/logout', 'App\Http\Controllers\AuthController@logout');
+
+    Route::controller(App\Http\Controllers\CustomerController::class)->group(function () {
+        Route::get('/customers', 'index');
+        Route::post('/customer/create', 'store');
+    });
 });
- 
+
+Route::post('/customer/login', 'App\Http\Controllers\CustomerController@login')->name('customer.login.post');
+
+
+// Customer Home page after login
+// Route::group(['middleware'=>'customer'], function() {
+//     Route::get('/customer/home', 'App\Http\Controllers\CustomerController@index');
+// })
