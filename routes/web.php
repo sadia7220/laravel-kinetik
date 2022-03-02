@@ -16,16 +16,3 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
-
-// Route::get('/billGenerated', function() {
-//     return new BillGeneratedEmail();
-// });
-
-Route::get('/billGenerated', function() {
-
-    event( new \App\Mail\BillGeneratedEmail('sadia_test@gmail.com') );
-
-    //\Mail::to('sadia_test@gmail.com')->send(new \App\Mail\BillGeneratedEmail());
-
-    return '<h1>Email Sent</h1>';
-});

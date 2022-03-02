@@ -1,11 +1,14 @@
 @component('mail::message')
-# Introduction
 
-The body of your message.
-
-@component('mail::button', ['url' => ''])
+# Hello {{$customer->name}},
+<br>
+{{$bill['total_bill']}} amount of total bills has been generated for this month.
+<br>
+<br>
+<br>
+<!-- @component('mail::button', ['url' => ''])
 Button Text
-@endcomponent
+@endcomponent -->
 
 Thanks,<br>
 {{ config('app.name') }}

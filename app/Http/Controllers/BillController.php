@@ -7,8 +7,10 @@ use Illuminate\Http\Request;
 use App\Models\Customer;
 use Carbon\Carbon;
 
-
 use App\Mail\BillGeneratedEmail;
+use App\Events\BillEvent;
+
+use Illuminate\Support\Facades\Log;
 
 class BillController extends Controller
 {
@@ -125,17 +127,16 @@ class BillController extends Controller
             return $this->getResponse(404, 'customer not found!');
         }
 
-        // Need data from the last 30 days.
-        $query = Bill::where('customer_id', $customer->id)->where('created_at', '>=', Carbon::today()->subDays(30));
+        $query = Bill::where('customer_id', $customer->id)->where('created_at', '>=', Carbon::today()->subDays(30)); 
 
-        $data = [
+        $bill = [
             'total_bill' => number_format($query->sum('amount'), 2),
         ];
 
+        Log::info($bill);
 
-        event(new BillGeneratedEmail('sadia_test@gmail.com'));
-        //event(new BillGeneratedEmail($customer->email));
+        event(new BillEvent($customer, $bill));
 
-        return $this->getResponse(200, 'Bill 2 report has been generated!', $data);
+        return $this->getResponse(200, 'Bill report has been generated!', $bill);
     }
 }
