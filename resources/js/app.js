@@ -6,6 +6,7 @@ import store from './store/index';
 
 
 Vue.component('login', require('./LoginComponent.vue').default);
+Vue.component('logout', require('./Logout.vue').default);
 Vue.component('register', require('./RegisterComponent.vue').default);
 
 Vue.component('customers', require('./components/customers/CustomersIndex.vue').default);

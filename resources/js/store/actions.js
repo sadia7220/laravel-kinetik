@@ -1,11 +1,15 @@
+let token = localStorage.getItem('access_token');
+
+console.log(token)
 let actions = {
     createCustomer({commit}, customer) {
-        axios.post('/api/customer/create', customer, {
+        axios.post('http://127.0.0.1:8000/api/customer/create', customer, {
             headers: {
-              'Authorization': `Bearer 1|P3FV4xgmm5RIfPWNAkvVhLzEy9LF4CyBeL27OziD`
+              'Authorization': `Bearer ${token}`
             }
           })
             .then(res => {
+                console.log(res)
                 commit('CREATE_CUSTOMER', res.data)
                 window.location.href = '/customers';
             }).catch(err => {
@@ -13,9 +17,9 @@ let actions = {
         })
     },
     fetchCustomers({commit}) {
-        axios.get('/api/customers', {
+        axios.get('http://127.0.0.1:8000/api/customers', {
             headers: {
-              'Authorization': `Bearer 1|P3FV4xgmm5RIfPWNAkvVhLzEy9LF4CyBeL27OziD`
+              'Authorization': `Bearer 11`
             }
           })
             .then(res => {
@@ -24,11 +28,10 @@ let actions = {
             console.log(err)
         })
     },
-    deleteCustomer({commit}, customer) {
-        axios.delete(`/api/customers/${customer.id}`)
+    fetchBills({commit}, bill) {
+        axios.delete(`/api/bill/billByCustomer/${bill.id}`)
             .then(res => {
-                if (res.data === 'ok')
-                    commit('DELETE_CUSTOMER', customer)
+                    commit('FETCH_BILLS', bill)
             }).catch(err => {
             console.log(err)
         })

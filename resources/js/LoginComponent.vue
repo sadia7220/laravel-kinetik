@@ -3,7 +3,7 @@
         <form @submit.prevent="handleLogin">
             <div class="form-group">
                 <label for="exampleInputEmail1">Email address</label>
-                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email" v-model="formData.email"/>
+                <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Email" v-model="formData.email"/>
             
             </div>
             <div class="form-group">
@@ -29,6 +29,8 @@
 </template>
 
 <script>
+import Cookies from "js-cookie";
+import swal from 'sweetalert';
 
 export default {
     data() {
@@ -45,9 +47,28 @@ export default {
             console.log(this.formData)
             axios.get('/sanctum/csrf-cookie').then(response => {
             axios.post('http://127.0.0.1:8000/api/user/login', this.formData).then(response => {
-            console.log(response)
-            window.location.href = '/customers';
-            console.log('User signed in!');  
+            console.log(response.data)
+           
+
+             if (response.data.response_code == '200') {
+                const access_token = response.data.access_token;
+               
+                console.log(access_token)
+                if ('access_token' in response.data) {
+                    console.log(10101)  
+                   
+                    localStorage.setItem('access_token', access_token);
+                
+                    window.location.href = '/customers';
+                 
+                
+                } else {
+                   
+                }
+                }
+                else{
+               
+                }
 
             }).catch(error => console.log(error)); // credentials didn't match
             });    

@@ -10,6 +10,16 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    public function loginAttemt()
+    {
+        if(session()->get('authenticated')) {
+
+            return redirect()->route('customers');
+        }
+
+        return view('home');
+    }
+
     public function register(Request $request)
     {
         Log::info(111);
@@ -48,6 +58,8 @@ class AuthController extends Controller
 
         $token = $user->createToken('auth_token')->plainTextToken;
 
+        session(['authenticated' => true]);
+
         return response()->json([
             'response_code' => 200,
             'message' => 'Logged-in Successfully!',
@@ -59,6 +71,7 @@ class AuthController extends Controller
 
     public function logout()
     {   
+        Log::info(111);
         $user = Auth::user();
         $user->tokens()->where('id', $user->currentAccessToken()->id)->delete();
 
