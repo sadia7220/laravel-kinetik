@@ -20,8 +20,17 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/create_customers', function () {
+    return view('create_customers');
+});
+
+Route::get('/customers', function () {
+    return view('customers');
+});
+
 Route::get('/toRegister', [App\Http\Controllers\AuthController::class, 'toRegister'])->name('toRegister');
-Route::get('/customersView', [App\Http\Controllers\CustomerController::class, 'customersView'])->name('customersView');
+Route::get('/allCustomers', [App\Http\Controllers\CustomerController::class, 'allCustomers'])->name('allCustomers');
+Route::get('/createCustomers', [App\Http\Controllers\CustomerController::class, 'createCustomers'])->name('createCustomers');
 
 // Route::get('/{vue_capture?}', function () {
 //     return view('welcome');

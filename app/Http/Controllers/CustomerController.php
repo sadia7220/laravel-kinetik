@@ -26,15 +26,7 @@ class CustomerController extends Controller
      * @return \Illuminate\Http\Response
      */
     
-    public function customersView()
-    {
-        return view('customers');
-    }
-
-    public function create()
-    {
-        return view('register');
-    }
+   
 
     /**
      * Store a newly created resource in storage.

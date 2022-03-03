@@ -13,9 +13,10 @@
            
             <div class="form-group text-center">
                 <div class="col-xs-12 p-b-20">
+                    
                     <button class="btn-sm btn-block btn-info btn-rounded m-4" type="submit">Log In</button>
                 
-                        <router-link :to="'/list'" tag="button">hh</router-link>
+                       
                 
                     </div>
                 </div>
@@ -32,11 +33,8 @@
 </template>
 <script>
 
-import VueRouter from 'vue-router';
-
 export default {
-    props: ['post-route'],
-    
+    props: ['homeRoute'],
     data() {
         return {
             secrets: [],
@@ -53,9 +51,9 @@ export default {
         axios.get('/sanctum/csrf-cookie').then(response => {
         axios.post('http://127.0.0.1:8000/api/user/login', this.formData).then(response => {
             console.log(response)
+              this.homeRoute;
             console.log('User signed in!');
-            
-            this.$router.push({path: 'toRegister'})
+          
 
         }).catch(error => console.log(error)); // credentials didn't match
         });

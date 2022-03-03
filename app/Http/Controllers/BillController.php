@@ -119,6 +119,18 @@ class BillController extends Controller
         return $this->getResponse(200, 'Billing status has been changed from due to paid!', $bill);
     }
 
+    public function billByCutomer(Request $request)
+    {
+        
+        $bill_customer = Bill::where('customer_id', '=', $request->id)->get();
+
+        if(is_null($bill_customer)){
+            return $this->getResponse(404, 'bills of customer not found!');
+        }
+
+        return $this->getResponse(200, 'Bill of the customer has been shown!', $bill_customer);
+    }
+
     public function generateReport(Request $request)
     {
         $customer = Customer::where('id', '=', $request->id)->first();

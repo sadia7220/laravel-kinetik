@@ -1,62 +1,68 @@
 <template>
     <div>
-        <h2 class="text-center">Customers List</h2>
- 
-        <table class="table">
+        <h4 class="text-center font-weight-bold">Customers</h4>
+
+        <div class="mr-100">
+            <a v-bind:href="'/create_customers'" class="btn btn-primary">Create Customer</a>
+        </div>
+
+        <table class="table table-striped">
             <thead>
             <tr>
-                <th>ID</th>
-                <th>Name</th>
-                <th>Email</th>
-                <!-- <th>Actions</th> -->
+                <th scope="col">Name</th>
+                <th scope="col">Email</th>
+                 <th scope="col">Address</th>
+                 <th scope="col">Billing</th>
+                <th scope="col">Actions</th>
+             
             </tr>
             </thead>
             <tbody>
-            <tr v-for="data in customer" :key="data.id">
-                <td>{{ data.id }}</td>
-                <td>{{ data.name }}</td>
-                <td>{{ data.email }}</td>
-                <!-- <td>
-                    <div class="btn-group" role="group">
-                        <router-link :to="{name: 'edit', params: { id: company.id }}" class="btn btn-success">Edit</router-link>
-                        <button class="btn btn-danger" @click="deleteCompany(company.id)">Delete</button>
-                    </div>
-                </td> -->
+            <tr v-for="customer in customers" :key="customer.id">
+               
+                <td>{{customer.name}}</td>
+                <td>{{customer.email}}</td>
+                 <td>{{customer.address}}</td>
+                <td>
+                     <button class="btn btn-info btn-sm ml-2" @click="deleteCustomer(customer)">Details</button>
+                   
+                </td>
+                 <td>
+            
+                    <button class="btn btn-danger btn-sm" @click="deleteCustomer(customer)">Delete</button>
+                </td>
             </tr>
             </tbody>
         </table>
     </div>
+
 </template>
- 
+
 <script>
+    import {mapGetters} from 'vuex'
+
     export default {
-        data() {
-            return {
-                customer: []
+        name: "Customers",
+        mounted() {
+            this.$store.dispatch('fetchCustomers')
+        },
+        methods: {
+            deleteCustomer(customer) {
+                this.$store.dispatch('deleteCustomer',customer)
+            },
+
+            deleteCustomer(customer) {
+                this.$store.dispatch('deleteCustomer',customer)
             }
         },
-        created() {
-             console.log(12222)
-            // this.axios
-            //     .get('http://localhost:8000/api/customers')
-            //     .then(response => {
-            //         console.log(response)
-            //         this.customer = response.data;
-            //     });
-
-                 this.axios.get(`http://localhost:8000/api/customers`, {
-            headers: {
-                'Authorization': `Bearer 1|P3FV4xgmm5RIfPWNAkvVhLzEy9LF4CyBeL27OziD`
-            }
-        })
-        then(response => {
-                    console.log(12222)
-                    this.customer = response.data;
-                });
-                
-                },
-        methods: {
-          
+        computed: {
+            ...mapGetters([
+                'customers'
+            ])
         }
     }
 </script>
+
+<style scoped>
+
+</style>

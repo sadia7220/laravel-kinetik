@@ -1,31 +1,27 @@
-require('./bootstrap');
-import VueRouter from 'vue-router';
-import VueEvents from 'vue-events';
+import './bootstrap';
 
-import CustomersIndex from './components/customers/CustomersIndex.vue'
-import CreateCustomer from './components/customers/CreateCustomer.vue'
-import LoginComponent from './LoginComponent.vue'
-import RegisterComponent from './RegisterComponent.vue'
-import MainApp from './components/MainApp';
+window.Vue = require('vue').default;
+
 import store from './store/index';
-import Vue from 'vue'
+
+// import CustomersIndex from './components/customers/CustomersIndex.vue'
+// import CreateCustomer from './components/customers/CreateCustomer.vue'
+// import LoginComponent from './LoginComponent.vue'
+// import RegisterComponent from './RegisterComponent.vue'
+// import MainApp from './components/MainApp';
 
 
-Vue.use(VueRouter);
-Vue.use(VueEvents);
 
-import { routes } from "./routes";
+Vue.component('login', require('./LoginComponent.vue').default);
 
-const router = new VueRouter({
-    routes,
-    mode: 'history',
-    store
-});
+
+Vue.component('customers', require('./components/customers/CustomersIndex.vue').default);
+Vue.component('create-customer', require('./components/customers/CreateCustomer.vue').default);
+
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 const app = new Vue({
     el: '#app',
-    components: { MainApp, LoginComponent, RegisterComponent, CreateCustomer, CustomersIndex },
-    router,
-    store,
-  
-})
+    store
+});
+

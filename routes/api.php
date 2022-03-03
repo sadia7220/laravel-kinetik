@@ -41,6 +41,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/bills', 'index');
         Route::post('/bill/create', 'store');
 
+        Route::get('/bill/billByCutomer/{id}', 'billByCutomer');
+
         Route::get('/bill/generateReport/{id}', 'generateReport');
 
         //Changing Customer's Bill'S Status from Due to Paid
