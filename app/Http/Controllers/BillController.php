@@ -1,0 +1,154 @@
+<?php
+
+namespace App\Http\Controllers;
+
+use App\Models\Bill;
+use Illuminate\Http\Request;
+use App\Models\Customer;
+use Carbon\Carbon;
+
+use App\Mail\BillGeneratedEmail;
+use App\Events\BillEvent;
+
+use Illuminate\Support\Facades\Log;
+
+class BillController extends Controller
+{
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index()
+    {
+        $customer_bill=Bill::all();
+        return $this->getResponse(200, 'Customer Bill List', $customer_bill);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Store a newly created resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'bill_month' => 'required|string|max:255',
+            'year' => 'required|string|max:255',
+            'amount' => 'required|string|max:255',
+            'customer_id' => 'required|max:11',
+        ]);
+
+        $customer_bill = Bill::create([
+            'bill_month' => $validatedData['bill_month'],
+            'year' => $validatedData['year'],
+            'amount' => $validatedData['amount'],
+            'customer_id' => $validatedData['customer_id'],
+        ]);
+
+        return $this->getResponse(201, 'Bill created Successfully!', $customer_bill);
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param  \App\Models\Bill  $bill
+     * @return \Illuminate\Http\Response
+     */
+    public function show(Bill $bill)
+    {
+        //
+    }
+
+    /**
+     * Show the form for editing the specified resource.
+     *
+     * @param  \App\Models\Bill  $bill
+     * @return \Illuminate\Http\Response
+     */
+    public function edit(Bill $bill)
+    {
+        //
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Bill  $bill
+     * @return \Illuminate\Http\Response
+     */
+    public function update(Request $request, Bill $bill)
+    {
+        //
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  \App\Models\Bill  $bill
+     * @return \Illuminate\Http\Response
+     */
+    public function destroy(Bill $bill)
+    {
+        //
+    }
+
+    public function changeBillStatus(Request $request)
+    {
+        $bill = Bill::where('id', '=', $request->id)->first();
+
+        if(is_null($bill)){
+            return $this->getResponse(404, 'Bill not found!');
+        }
+
+        $bill->status = 1;
+        $bill->save();
+
+        return $this->getResponse(200, 'Billing status has been changed from due to paid!', $bill);
+    }
+
+    public function billByCutomer(Request $request)
+    {
+        
+        $bill_customer = Bill::where('customer_id', '=', $request->id)->get();
+
+        if(is_null($bill_customer)){
+            return $this->getResponse(404, 'bills of customer not found!');
+        }
+
+        return $this->getResponse(200, 'Bill of the customer has been shown!', $bill_customer);
+    }
+
+    public function generateReport(Request $request)
+    {
+        $customer = Customer::where('id', '=', $request->id)->first();
+
+        if(is_null($customer)){
+            return $this->getResponse(404, 'customer not found!');
+        }
+
+        $query = Bill::where('customer_id', $customer->id)->where('created_at', '>=', Carbon::today()->subDays(30)); 
+
+        $bill = [
+            'total_bill' => number_format($query->sum('amount'), 2),
+        ];
+
+        Log::info($bill);
+
+        event(new BillEvent($customer, $bill));
+
+        return $this->getResponse(200, 'Bill report has been generated!', $bill);
+    }
+}
