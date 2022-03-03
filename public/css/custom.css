@@ -1,0 +1,64 @@
+/**
+* Spinner
+*/
+
+#loaderGif {
+    margin-left: 10px;
+    display: none;
+}
+
+span.tab-space {
+    padding-left:3em;
+}
+
+.file {
+    visibility: hidden;
+    position: absolute;
+}
+
+.container-fluid {
+    text-align: left;
+    font-size: 0.93em;
+}
+
+input[type=text] {
+    padding: 1px 10px; 
+    line-height: 10px;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+button[type=button] {
+    padding: 7px 10px; 
+    line-height: 10px;
+    font-size: 0.93em;
+    height: auto;
+}
+
+/*
+input.multiselect__input {
+    font-size: 0.93em;
+}
+
+input.multiselect__option:after {
+    font-size: 10%;
+}
+
+input.multiselect__single {
+    font-size: 0.93em;
+}
+
+input.multiselect__v-model {
+    font-size: 0.93em;
+}
+
+input.multiselect__tags {
+    font-size: 10%;
+}
+
+textarea {
+    padding: 7px 10px; 
+    line-height: 10px;
+    font-size: 0.93em;
+    height: auto;
+} */

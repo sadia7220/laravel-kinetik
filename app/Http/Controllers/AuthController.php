@@ -10,9 +10,15 @@ use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
+    public function toRegister()
+    {
+        Log::info(111);
+        return view('register');
+    }
    
     public function register(Request $request)
     {
+        Log::info(111);
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
             'email' => 'required|string|email|max:255|unique:users',

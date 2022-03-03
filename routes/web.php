@@ -20,6 +20,8 @@ Route::get('/', function () {
     return view('home');
 });
 
+Route::get('/toRegister', [App\Http\Controllers\AuthController::class, 'toRegister'])->name('toRegister');
+
 // Route::get('/{vue_capture?}', function () {
 //     return view('welcome');
 // })->where('vue_capture', '[\/\w\.-]*');
