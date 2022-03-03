@@ -21,6 +21,7 @@ Route::get('/', function () {
 });
 
 Route::get('/toRegister', [App\Http\Controllers\AuthController::class, 'toRegister'])->name('toRegister');
+Route::get('/customersView', [App\Http\Controllers\CustomerController::class, 'customersView'])->name('customersView');
 
 // Route::get('/{vue_capture?}', function () {
 //     return view('welcome');

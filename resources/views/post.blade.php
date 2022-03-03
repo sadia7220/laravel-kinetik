@@ -18,9 +18,7 @@
     <base href="{{ url('/') }}" />
     <div class="content">
         <div id="app">
-         
-        <router-view></router-view>
-        
+            <main-app></main-app>
         </div>
     </div>
 </div>

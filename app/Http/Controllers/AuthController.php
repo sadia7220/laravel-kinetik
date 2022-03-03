@@ -12,7 +12,6 @@ class AuthController extends Controller
 {
     public function toRegister()
     {
-        Log::info(111);
         return view('register');
     }
    

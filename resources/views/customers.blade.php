@@ -1,13 +1,12 @@
-@extends('layouts.login')
+@extends('layouts.app')
 
 @section('content')
 <div id="app">
 <div class="container">
     <div class="row justify-content-center">
         <div class="col-md-8">
-                    <register-component></register-component>
-
-                    <router-view></router-view>
+        <customers-index></customers-index>
+                 
             </div>
         </div>
     </div>
