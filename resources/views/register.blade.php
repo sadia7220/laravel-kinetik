@@ -5,7 +5,7 @@
 <div id="app">
     <div class="container">
         <div class="row">
-            <register-component></register-component>
+            <register></register>
         </div>
     </div>
 </div>

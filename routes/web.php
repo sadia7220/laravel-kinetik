@@ -28,19 +28,13 @@ Route::get('/customers', function () {
     return view('customers');
 });
 
-Route::get('/toRegister', [App\Http\Controllers\AuthController::class, 'toRegister'])->name('toRegister');
-Route::get('/allCustomers', [App\Http\Controllers\CustomerController::class, 'allCustomers'])->name('allCustomers');
-Route::get('/createCustomers', [App\Http\Controllers\CustomerController::class, 'createCustomers'])->name('createCustomers');
+Route::get('/register', function () {
+    return view('register');
+});
 
-// Route::get('/{vue_capture?}', function () {
-//     return view('welcome');
-// })->where('vue_capture', '[\/\w\.-]*');
+Route::middleware(['authenticate'])->group(function () {
+    //Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+    Route::get('/logout', [App\Http\Controllers\AuthController::class, 'logout'])->name('logout');
 
-// Route::get('/{any}', function () {
-//     return view('welcome');
-//  })->where('any', '.*');
+});
 
-
-// Route::get('{any}', function () {
-//     return view('homepage');
-// })->where('any','.*');

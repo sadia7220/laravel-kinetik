@@ -1,6 +1,5 @@
 let actions = {
     createCustomer({commit}, customer) {
-        console.log(101)
         axios.post('/api/customer/create', customer, {
             headers: {
               'Authorization': `Bearer 1|P3FV4xgmm5RIfPWNAkvVhLzEy9LF4CyBeL27OziD`
